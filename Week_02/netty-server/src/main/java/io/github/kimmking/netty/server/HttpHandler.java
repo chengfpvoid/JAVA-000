@@ -9,18 +9,15 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpUtil;
 import io.netty.util.ReferenceCountUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import static io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE;
 import static io.netty.handler.codec.http.HttpHeaderNames.CONNECTION;
+import static io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE;
 import static io.netty.handler.codec.http.HttpResponseStatus.NO_CONTENT;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
-public class HttpHandler extends ChannelInboundHandlerAdapter {
 
-    private static Logger logger = LoggerFactory.getLogger(HttpHandler.class);
+public class HttpHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
@@ -33,7 +30,7 @@ public class HttpHandler extends ChannelInboundHandlerAdapter {
             //logger.info("channelRead流量接口请求开始，时间为{}", startTime);
             FullHttpRequest fullRequest = (FullHttpRequest) msg;
             String uri = fullRequest.uri();
-            //logger.info("接收到的请求url为{}", uri);
+            System.out.println("接收到的请求url为:" + uri);
             if (uri.equals("/")) {
                 handlerTest(fullRequest, ctx);
             }
@@ -51,7 +48,7 @@ public class HttpHandler extends ChannelInboundHandlerAdapter {
             response.headers().setInt("Content-Length", response.content().readableBytes());
 
         } catch (Exception e) {
-            logger.error("处理测试接口出错", e);
+            System.out.println("处理测试接口出错:" + e);
             response = new DefaultFullHttpResponse(HTTP_1_1, NO_CONTENT);
         } finally {
             if (fullRequest != null) {
