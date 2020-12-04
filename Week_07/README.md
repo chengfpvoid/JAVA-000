@@ -6,3 +6,4 @@
 
 配置Ds注解通过AOP的方式，讲Ds的注解的vlaue作为key，去获取当前线程所需要的数据源。
 
+代码链接 ：https://github.com/chengfpvoid/JAVA-000/tree/main/Week_07/abstractrouting-dynamic-datasource
