@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheng.shardingms.mapper.UserMapper">
+    <insert id="save" parameterType="com.cheng.shardingms.entity.User">
+        insert into tb_user(age, sex, `name`) values (#{age},#{sex}, #{name})
+    </insert>
+    <update id="update" parameterType="com.cheng.shardingms.entity.User">
+        update user
+        <set>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="sex != null">
+                sex=#{sex},
+            </if>
+            <if test="name != null">
+                `name`=#{name},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteById" parameterType="long">
+        delete from tb_user where id = #{id}
+    </delete>
+    <select id="selectById" resultType="com.cheng.shardingms.entity.User" parameterType="long">
+        select id, age, sex, `name` from tb_user where id = #{id}
+    </select>
+    <select id="selectAll" resultType="com.cheng.shardingms.entity.User">
+        select id, password, age, sex, `name` from tb_user
+    </select>
+</mapper>
