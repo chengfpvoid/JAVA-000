@@ -27,9 +27,9 @@ spring:
             primary-data-source-name: ds-master
             replica-data-source-names: ds-slave
         load-balancers:
-          robin:
+          robin: # 必须配置，不然bean注入失败
             type: ROUND_ROBIN
-            props:
+            props: # 源码中默认是空，此处还必须指定一个属性
               key: none
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
