@@ -1,0 +1,82 @@
+
+spring:
+  # ShardingSphere 配置项
+  shardingsphere:
+    # 数据源配置
+    datasource:
+      common: #公共配置
+        type: com.zaxxer.hikari.HikariDataSource # 使用 Hikari 数据库连接池
+        driver-class-name: com.mysql.jdbc.Driver
+        username: root
+        password: 123456
+
+      # 所有数据源的名字
+      names: ds0, ds1
+
+      # ds0数据源配置
+      ds0:
+        jdbc-url: jdbc:mysql://47.99.223.122:3315/db0?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+      # ds1数据源配置
+      ds1:
+        jdbc-url: jdbc:mysql://47.99.223.122:3315/db1?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    rules:
+      sharding:
+        default-database-strategy:
+          standard:
+            sharding-column: user_id
+            sharding-algorithm-name: database_inline
+        binding-tables: tb_order,tb_order_details
+        tables:
+          tb_order:
+            actual-data-nodes: ds$->{0..1}.tb_order$->{0..15}
+            table-strategy:
+              standard:
+                sharding-column: id
+                sharding-algorithm-name: tb_order_inline
+            key-generate-strategy:
+              column: order_id
+              key-generator-name: snowflake
+          tb_order_details:
+            actual-data-nodes: ds$->{0..1}.tb_order_details$->{0..15}
+              table-strategy:
+                standard:
+                  sharding-column: order_id
+                  sharding-algorithm-name: tb_order_details_inline
+              key-generate-strategy:
+                column: id
+                key-generator-name: snowflake
+        sharding-algorithms:
+          database_inline: # 分库算法 按user_id取模
+            props:
+              algorithm-expression: ds$->{user_id % 2}
+          tb_order_inline: # 分表算法 按 order_id取模
+            type: INLINE
+            props:
+              algorithm-expression: tb_order$->{id % 15}
+          tb_order_details_inline:
+            type: INLINE
+              props:
+                algorithm-expression: tb_order_details$->{order_id % 15}
+
+
+        key-generators:
+          snowflake:
+            type: SNOWFLAKE
+            props:
+              worker-id: 123
+
+
+
+#mybatis-plus config
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  typeAliasesPackage: com.cheng.**.entity
+  configuration:
+    jdbc-type-for-null: 'null'
+  global-config:
+    db-config:
+      table-prefix: tb_
+      table-underline: true
+logging:
+  level:
+    com.cheng: debug
