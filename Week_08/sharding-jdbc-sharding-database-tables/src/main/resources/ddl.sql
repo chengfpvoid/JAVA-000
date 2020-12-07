@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `t_order`;
 CREATE TABLE `tb_order`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户id',
   `total_price` decimal(11, 2) NULL DEFAULT NULL COMMENT '实际支付价格',
   `create_time` datetime NOT NULL COMMENT '下单时间',
@@ -24,7 +24,6 @@ CREATE TABLE `tb_order`  (
   `finish_time` datetime(0) NULL DEFAULT NULL COMMENT '完成时间（如果用户取消订单则存取消时间）',
   `finish_date_stamp` bigint(20) NULL DEFAULT NULL COMMENT '完成时间（如果用户取消订单则存取消时间）戳',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `idx_order_code`(`order_code`) USING BTREE,
   INDEX `idx_user_id`(`user_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 0 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单表';
 

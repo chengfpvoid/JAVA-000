@@ -24,39 +24,39 @@ spring:
         default-database-strategy:
           standard:
             sharding-column: user_id
-            sharding-algorithm-name: database_inline
+            sharding-algorithm-name: database-inline
         binding-tables: tb_order,tb_order_details
         tables:
           tb_order:
             actual-data-nodes: ds$->{0..1}.tb_order$->{0..15}
             table-strategy:
               standard:
-                sharding-column: id
-                sharding-algorithm-name: tb_order_inline
+                sharding-column: order_id
+                sharding-algorithm-name: order-inline
             key-generate-strategy:
               column: order_id
               key-generator-name: snowflake
           tb_order_details:
             actual-data-nodes: ds$->{0..1}.tb_order_details$->{0..15}
-              table-strategy:
-                standard:
-                  sharding-column: order_id
-                  sharding-algorithm-name: tb_order_details_inline
-              key-generate-strategy:
-                column: id
-                key-generator-name: snowflake
+            table-strategy:
+              standard:
+                sharding-column: order_id
+                sharding-algorithm-name: order-detail-inline
+            key-generate-strategy:
+              column: id
+              key-generator-name: snowflake
         sharding-algorithms:
-          database_inline: # 分库算法 按user_id取模
+          database-inline: # 分库算法 按user_id取模
             props:
               algorithm-expression: ds$->{user_id % 2}
-          tb_order_inline: # 分表算法 按 order_id取模
+          order-inline: # 分表算法 按 order_id取模
             type: INLINE
             props:
-              algorithm-expression: tb_order$->{id % 15}
-          tb_order_details_inline:
+              algorithm-expression: tb_order$->{order_id % 16}
+          order-detail-inline:
             type: INLINE
-              props:
-                algorithm-expression: tb_order_details$->{order_id % 15}
+            props:
+              algorithm-expression: tb_order_details$->{order_id % 16}
 
 
         key-generators:
