@@ -24,6 +24,7 @@ public class CustomMetaObjectHandler implements MetaObjectHandler {
 
 
         this.strictInsertFill(metaObject,"createTime",LocalDateTime.class, LocalDateTime.now());
+        this.strictInsertFill(metaObject,"createDateStamp",Long.class, System.currentTimeMillis());
         this.strictInsertFill(metaObject,"modTime",LocalDateTime.class, LocalDateTime.now());
 
     }
