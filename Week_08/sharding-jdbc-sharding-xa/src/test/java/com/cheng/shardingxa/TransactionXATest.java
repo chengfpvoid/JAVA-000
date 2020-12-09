@@ -37,8 +37,8 @@ public class TransactionXATest {
     }
 
     private void createOrder() {
-        Inventory inventory = new Inventory();
-        inventory.setSkuId(1L).setNum(1).setVersion(1);
+        Inventory inventory = inventoryMapper.selectById(1L);
+        inventory.setNum(1).setVersion(inventory.getVersion() + 1);
         inventoryMapper.updateById(inventory);
 
         Order order = new Order();

@@ -45,3 +45,12 @@ CREATE TABLE `tb_order_details`  (
   INDEX `idx_order_id`(`order_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 0 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单详情表';
 
+DROP TABLE IF EXISTS `tb_inventory`
+CREATE TABLE `tb_inventory` (
+  `sku_id` bigint(20) NOT NULL COMMENT '商品id',
+  `num` int(10) NOT NULL COMMENT '数量',
+  `version` int(10) NOT NULL COMMENT '版本',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `mod_time` datetime NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`sku_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品库存信息表';
