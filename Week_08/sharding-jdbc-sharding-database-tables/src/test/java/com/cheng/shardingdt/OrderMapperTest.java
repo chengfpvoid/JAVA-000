@@ -4,6 +4,7 @@ import com.cheng.shardingdt.entity.Order;
 import com.cheng.shardingdt.entity.OrderDetails;
 import com.cheng.shardingdt.mapper.OrderDetailsMapper;
 import com.cheng.shardingdt.mapper.OrderMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,14 +18,14 @@ public class OrderMapperTest {
     @Autowired
     private OrderDetailsMapper orderDetailsMapper;
     @Test
-    //@Transactional
     public void testInsertOrder() {
         for(int i = 0 ; i < 16; i++) {
             Order order = new Order();
-            order.setOrderId(i+1000L);
+           // order.setOrderId(i+1000L);
             order.setUserId((long) i);
             order.setTotalPrice(BigDecimal.ONE);
-            orderMapper.insert(order);
+            int r = orderMapper.insert(order);
+            Assertions.assertTrue(r > 0);
             OrderDetails orderDetails = new OrderDetails();
             orderDetails.setOrderId(order.getOrderId())
                     .setGoodsItemId(1L)
@@ -36,7 +37,9 @@ public class OrderMapperTest {
                     .setQuantity(1)
                     .setCostPrice(BigDecimal.ONE);
 
-            orderDetailsMapper.insert(orderDetails);
+            int r1 =  orderDetailsMapper.insert(orderDetails);
+            Assertions.assertTrue(r1 > 0);
+
         }
 
     }
