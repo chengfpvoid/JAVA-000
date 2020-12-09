@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `t_order`;
 CREATE TABLE `tb_order`  (
-  `order_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) NOT NULL ,
   `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户id',
   `total_price` decimal(11, 2) NULL DEFAULT NULL COMMENT '实际支付价格',
   `create_time` datetime NOT NULL COMMENT '下单时间',
@@ -29,7 +29,7 @@ CREATE TABLE `tb_order`  (
 
 DROP TABLE IF EXISTS `t_order_details`;
 CREATE TABLE `tb_order_details`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL ,
   `order_id` bigint(20) NOT NULL COMMENT '订单id',
   `goods_item_id` bigint(20)  NOT NULL COMMENT '货号id',
   `goods_name` varchar(32) NOT NULL COMMENT '商品名称',

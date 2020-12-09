@@ -64,7 +64,7 @@ spring:
           snowflake:
             type: SNOWFLAKE
             props:
-              worker-id: 123
+              worker-id: 33
     props:
       sql-show: true
 
