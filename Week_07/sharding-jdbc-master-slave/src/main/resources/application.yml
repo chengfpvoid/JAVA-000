@@ -1,0 +1,39 @@
+
+spring:
+  # ShardingSphere 配置项
+  shardingsphere:
+    # 数据源配置
+    datasource:
+      common: #公共配置
+        type: com.zaxxer.hikari.HikariDataSource # 使用 Hikari 数据库连接池
+        driver-class-name: com.mysql.jdbc.Driver
+        username: root
+        password: 123456
+
+      # 所有数据源的名字
+      names: ds-master, ds-slave
+
+      # 主库的数据源配置
+      ds-master:
+        jdbc-url: jdbc:mysql://47.99.223.122:3315/db?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+      # 从库数据源配置
+      ds-slave:
+        jdbc-url: jdbc:mysql://47.99.223.122:3316/db?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    # 读写分离配置
+    rules:
+      replica-query:
+        data-sources:
+          ds:
+            primary-data-source-name: ds-master
+            replica-data-source-names: ds-slave
+        load-balancers:
+          robin: # 必须配置，不然bean注入失败
+            type: ROUND_ROBIN
+            props: # 源码中默认是空，此处还必须指定一个属性
+              key: none
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.cheng.shardingms.entity
+logging:
+  level:
+    com.cheng: debug

@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    master:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3315/db?useSSL=false&useUnicode=true&characterEncoding=utf8
+      username: root
+      password: 123456
+    ## \u4E00\u4E3B\u591A\u4ECE,\u53EF\u4EE5\u914D\u7F6E\u591A\u4E2Aslave
+    cluster:
+      - key: slave
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3316/db?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: 123456
+        idle-timeout: 20000
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.cheng.dyds.entity
+logging:
+  level:
+    com.cheng: debug
