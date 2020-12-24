@@ -1,5 +1,6 @@
 package io.kimmking.rpcfx.netty;
 
+import io.kimmking.rpcfx.exception.RpcfxException;
 import io.kimmking.rpcfx.utils.NamedThreadFactory;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
@@ -84,10 +85,10 @@ public class HttpClient {
             }
         }
 
-        if (future.isSuccess()) {
-            return future.getNow();
+        if (!future.isSuccess()) {
+            throw new RpcfxException("netty http client 获取响应结果超时");
         }
-        log.error("wait result time out ");
-        return null;
+
+        return future.getNow();
     }
 }
