@@ -65,7 +65,8 @@ public final class Rpcfx {
                 if (!response.isStatus()) {
                     throw response.getException();
                 }
-                return response.getResult();
+                return JSON.parse((String) response.getResult());
+
             }
             private RpcfxResponse post(RpcfxRequest req, String url) throws IOException {
                 String reqJson = JSON.toJSONString(req);

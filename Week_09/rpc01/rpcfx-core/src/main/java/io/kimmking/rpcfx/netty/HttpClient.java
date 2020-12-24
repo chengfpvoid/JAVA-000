@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class HttpClient {
     public static final AttributeKey<Promise<String>> NETTY_RESPONSE_PROMISE_KEY = AttributeKey.valueOf("netty-client-response-promise");
 
-    public String connect(String url, String content, long timeOutMills) throws Exception {
+    public String post(String url, String content, long timeOutMills) throws Exception {
         EventLoopGroup group = new NioEventLoopGroup();
         Promise<String> responsePromise =  new DefaultEventLoop(null, new NamedThreadFactory("NettyResponsePromiseNotify"))
                 .newPromise();
